@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: Bullet Train API
+  description: |
+    The baseline API of a new Bullet Train application.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: "V1"
+servers:
+  - url: https://web-foch.onrender.com/api/v1
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    TeamAttributes:
+      type: object
+      title: Teams
+      description: Teams
+      required:
+      - id
+      - name
+      properties:
+        id:
+          description: Team ID
+          type: string
+        name:
+          description: Team
+          type: string
+        time_zone:
+          description: Primary Time Zone
+          type: string
+        locale:
+          description: Language
+          type: string
+        created_at:
+          description: Signed Up At
+          type: string
+        updated_at:
+          description: Updated At
+          type: string
+    TeamParameters:
+      type: object
+      title: Teams
+      description: Teams
+      required:
+      - name
+      properties:
+        name:
+          description: Team
+          type: string
+        time_zone:
+          description: Primary Time Zone
+          type: string
+        locale:
+          description: Language
+          type: string
+
+    UserAttributes:
+      type: object
+      title: Users
+      description: Users
+      required:
+      - id
+      - email
+      properties:
+        id:
+          description: Team ID
+          type: string
+        email:
+          description: Email Address
+          type: string
+        first_name:
+          description: First Name
+          type: string
+        last_name:
+          description: Last Name
+          type: string
+        time_zone:
+          description: Your Time Zone
+          type: string
+        locale:
+          description: Language
+          type: string
+        created_at:
+          description: Signed Up At
+          type: string
+        updated_at:
+          description: Updated At
+          type: string
+    UserParameters:
+      type: object
+      title: Users
+      description: Users
+      required:
+      - email
+      properties:
+        email:
+          description: Email Address
+          type: string
+        first_name:
+          description: First Name
+          type: string
+        last_name:
+          description: Last Name
+          type: string
+        time_zone:
+          description: Your Time Zone
+          type: string
+        locale:
+          description: Language
+          type: string
+
+    
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+security:
+  - BearerAuth: []
+paths:
+  /teams:
+    get:
+      tags:
+        - Teams
+      summary: "List Teams"
+      operationId: listTeams
+      responses:
+        "404":
+          description: "Not Found"
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TeamAttributes"
+                  has_more:
+                    type: boolean
+  /teams/{id}:
+    get:
+      tags:
+        - Teams
+      summary: "Fetch Team"
+      operationId: fetchTeam
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "404":
+          description: "Not Found"
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamAttributes"
+    put:
+      tags:
+        - Teams
+      summary: "Update Team"
+      operationId: updateTeam
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "404":
+          description: "Not Found"
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamParameters"
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: "List Users"
+      operationId: listUsers
+      responses:
+        "404":
+          description: "Not Found"
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserAttributes"
+                  has_more:
+                    type: boolean
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: "Fetch User"
+      operationId: fetchUser
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "404":
+          description: "Not Found"
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserAttributes"
+    put:
+      tags:
+        - Users
+      summary: "Update User"
+      operationId: updateUser
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "404":
+          description: "Not Found"
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserParameters"
+
+  
